@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import { getAllCharacters } from "./redux/action-creators";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const characters = useSelector((state) => state.allCharacters);
+
+  useEffect(() => {
+    dispatch(getAllCharacters());
+  }, []);
+
+  console.log(characters);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Chau mundo</h1>
+      {characters &&
+        characters.map((char) => (
+          <div key={char.id}>
+            <h3>{char.name}</h3>
+            <h4>{char.gender}</h4>
+            <img src={char.image} alt={char.name} />
+          </div>
+        ))}
     </div>
   );
 }
